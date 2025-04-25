@@ -1,13 +1,8 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
+import { UploadImageButton } from "./_components/upload-image-button";
 
-export default function HomePage() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      {/* <Link href={"/about"}>About Page Link</Link> */}
-      <Images />
-    </main>
-  );
-}
+export const dynamic = "force-dynamic";
 
 function Images() {
   const urls = [
@@ -22,19 +17,38 @@ function Images() {
   }));
 
   return (
-    <div className="flex flex-wrap justify-center gap-6 p-4">
-      {images.map((image) => (
-        <div key={image.id} className="flex w-64 flex-col">
-          <div className="relative aspect-video bg-zinc-900">
-            <img
-              src={image.url}
-              alt={image.id.toString()}
-              className="h-full w-full object-contain object-top"
-            />
+    <div>
+      <UploadImageButton />
+      <div className="flex flex-wrap justify-center gap-6 p-4">
+        {images.map((image) => (
+          <div key={image.id} className="flex w-64 flex-col">
+            <div className="relative aspect-video rounded-md bg-zinc-900">
+              <img
+                src={image.url}
+                alt={image.id.toString()}
+                className="h-full w-full rounded-md object-contain object-top"
+              />
+            </div>
+            <div className="text-center">{image.id}</div>
           </div>
-          <div className="text-center">{image.id}</div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <main className="">
+      {/* <Link href={"/about"}>About Page Link</Link> */}
+      <SignedOut>
+        <div className="h-full w-full text-center text-2xl">
+          Please Sign in to view the images.
+        </div>
+      </SignedOut>
+      <SignedIn>
+        <Images />
+      </SignedIn>
+    </main>
   );
 }
