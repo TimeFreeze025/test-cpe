@@ -18,7 +18,9 @@ export function TopNav() {
       </Button> */}
       <div className="items-center gap-4">
         <SignedOut>
-          <SignInButton />
+          <div className="cursor-pointer">
+            <SignInButton />
+          </div>
         </SignedOut>
         <SignedIn>
           <UserButton />
