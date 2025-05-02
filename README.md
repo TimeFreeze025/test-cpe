@@ -10,4 +10,4 @@
 - [x] Modified UploadButton and Added Dialog Modal with Image Preview
 - [x] Forms with Submit using Zod
 - [x] Completed Upload Image on Dialog Modal
-- [] Implement Image Parallel Routing
+- [x] Implement Image Parallel Routing
