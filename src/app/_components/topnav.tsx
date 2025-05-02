@@ -16,10 +16,11 @@ export function TopNav() {
         <LogIn className="h-64 w-64" />
         <span>Sign In</span>
       </Button> */}
-      <div className="items-center gap-4">
+      <div className="flex flex-row items-center gap-4">
         <SignedOut>
           <div className="cursor-pointer">
             <SignInButton />
+            {/* <SignInButton mode="modal" /> */}
           </div>
         </SignedOut>
         <SignedIn>

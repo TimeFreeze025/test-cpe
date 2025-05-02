@@ -1,7 +1,6 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import Link from "next/link";
-import { UploadImageButton } from "./_components/upload-image-button";
 import { getMyImages } from "~/server/queries";
+import { UploadDialog } from "./_components/upload-dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +9,9 @@ async function Images() {
 
   return (
     <div>
-      <UploadImageButton />
+      <div className="flex flex-row justify-end gap-4 p-4">
+        <UploadDialog />
+      </div>
       <div className="flex flex-wrap justify-center gap-6 p-4">
         {images.map((image) => (
           <div key={image.id} className="flex w-64 flex-col">
@@ -31,11 +32,10 @@ async function Images() {
 
 export default function HomePage() {
   return (
-    <main className="">
-      {/* <Link href={"/about"}>About Page Link</Link> */}
+    <main>
       <SignedOut>
-        <div className="h-full w-full p-4 text-center text-2xl">
-          Please Sign in to view the images.
+        <div className="h-full w-full text-center text-2xl">
+          Please Sign In Above
         </div>
       </SignedOut>
       <SignedIn>
