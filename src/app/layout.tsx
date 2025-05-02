@@ -22,7 +22,8 @@ const geist = Geist({
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  modal,
+}: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
   return (
     <ClerkProvider>
       <html lang="en" className={`${geist.variable}`}>
@@ -38,6 +39,8 @@ export default function RootLayout({
         <body className="dark">
           <TopNav />
           <main className="scroll-p-0 overflow-y-scroll">{children}</main>
+          {modal}
+          <div id="modal-root"></div>
           <Toaster />
         </body>
       </html>
