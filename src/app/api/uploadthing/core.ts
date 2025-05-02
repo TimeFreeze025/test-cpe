@@ -1,6 +1,8 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
+import { z } from "zod";
+import { metadata } from "~/app/layout";
 import { db } from "~/server/db";
 import { images } from "~/server/db/schema";
 
@@ -19,8 +21,9 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
+    .input(z.object({ imageName: z.string() })) // Define the input schema for this FileRoute,
     // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
+    .middleware(async ({ req, input }) => {
       // This code runs on your server before upload
       const user = await auth();
 
@@ -36,7 +39,7 @@ export const ourFileRouter = {
         throw new UploadThingError("User Does Not Have Upload Permissions");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.userId };
+      return { userId: user.userId, imageName: input.imageName };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
@@ -45,7 +48,8 @@ export const ourFileRouter = {
       console.log("file url", file.ufsUrl);
 
       await db.insert(images).values({
-        name: file.name,
+        fileName: file.name,
+        imageName: metadata.imageName,
         url: file.ufsUrl,
         userId: metadata.userId,
       });

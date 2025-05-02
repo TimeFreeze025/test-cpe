@@ -18,11 +18,11 @@ async function Images() {
             <div className="relative aspect-video rounded-md bg-zinc-900">
               <img
                 src={image.url}
-                alt={image.name}
+                alt={image.imageName}
                 className="h-full w-full rounded-md object-contain object-top"
               />
             </div>
-            <div className="text-center">{image.name}</div>
+            <div className="text-center">{image.imageName}</div>
           </div>
         ))}
       </div>

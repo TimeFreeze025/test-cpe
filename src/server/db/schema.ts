@@ -16,7 +16,8 @@ export const images = createTable(
   "images",
   (d) => ({
     id: d.integer().primaryKey().generatedByDefaultAsIdentity(),
-    name: d.varchar({ length: 256 }).notNull(),
+    fileName: d.varchar({ length: 256 }).notNull(),
+    imageName: d.varchar({ length: 256 }).notNull(),
     url: d.varchar({ length: 1024 }).notNull(),
     userId: d.varchar({ length: 256 }).notNull(),
     createdAt: d
@@ -25,5 +26,5 @@ export const images = createTable(
       .notNull(),
     updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
   }),
-  (t) => [index("name_idx").on(t.name)],
+  (t) => [index("name_idx").on(t.fileName)],
 );

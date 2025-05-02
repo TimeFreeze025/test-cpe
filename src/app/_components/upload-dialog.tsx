@@ -24,7 +24,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUploadThing } from "~/utils/uploadthing";
 import { toast } from "sonner";
 import { Upload } from "lucide-react";
@@ -55,6 +55,14 @@ export function UploadDialog() {
   );
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
 
+  // useEffect(() => {
+  //   if (open) {
+  //     setSelectedImageName(null);
+  //     setSelectedImageUrl(null);
+  //     form.reset({ imageName: "" });
+  //   }
+  // }, [open]);
+
   const handleImageSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -71,7 +79,7 @@ export function UploadDialog() {
     }
   };
 
-  const { startUpload } = useUploadThing("imageUploader", {
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onUploadBegin() {
       toast(
         <div className="flex items-center gap-2">
@@ -101,7 +109,9 @@ export function UploadDialog() {
     }
 
     const selectedImage = Array.from(inputRef.current.files);
-    await startUpload(selectedImage);
+    await startUpload(selectedImage, {
+      imageName: form.getValues("imageName"),
+    });
     setSelectedImageName(null);
     setSelectedImageUrl(null);
   };
@@ -168,7 +178,9 @@ export function UploadDialog() {
               )}
             />
             <DialogFooter>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" disabled={isUploading}>
+                Submit
+              </Button>
             </DialogFooter>
           </form>
         </Form>
